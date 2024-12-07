@@ -87,7 +87,10 @@ main()
   .catch((e) => console.log(e));
 
 async function main() {
-  await mongoose.connect(dbUrl);
+  await mongoose.connect(dbUrl,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 }
 
 // app.get("/registeredUser",async(req,res)=>{
