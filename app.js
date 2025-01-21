@@ -53,9 +53,6 @@ const sessionOptions = {
 };
 
 
-// app.get("/", (req, res) => {
-//   res.send("working");
-// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -69,7 +66,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.successMsg = req.flash("success");
   res.locals.errorMsg = req.flash("error");
-  res.locals.currUser = req.user;
+  res.locals.currUser = req.session?.user || null;
   console.log(res.locals.currUser);
 
   next();
