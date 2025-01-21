@@ -24,6 +24,8 @@ const localStrategy = require("passport-local");
 const User = require("./models/user.js");
 const { env } = require("process");
 const dbUrl=process.env.ATLASDB_URL
+const port = process.env.PORT || 8080;
+
 
 const store=MongoStore.create({
   mongoUrl:dbUrl,
@@ -132,6 +134,6 @@ app.use((err, req, res, next) => {
   let { status = "500", message = "some error occurred" } = err;
   return res.status(status).render("error.ejs", { message });
 });
-app.listen(8080, () => {
+app.listen(port, () => {
   console.log("listening at 8080");
 });
