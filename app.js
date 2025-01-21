@@ -61,15 +61,6 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
-  res.locals.successMsg = req.flash("success");
-  res.locals.errorMsg = req.flash("error");
-  res.locals.currUser = req.session?.user || null;
-  console.log(res.locals.currUser);
-
-  next();
-});
-
 app.set("views engine", "ejs engine");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -103,6 +94,15 @@ app.use("/listings", listingsRouter);
 
 app.use("/listings/:id/reviews/", reviewsRouter);
 app.use("/", userRouter);
+
+app.use((req, res, next) => {
+  res.locals.successMsg = req.flash("success");
+  res.locals.errorMsg = req.flash("error");
+  res.locals.currUser = req.session?.user || null;
+  console.log(res.locals.currUser);
+
+  next();
+});
 
 // app.get("/test",async(req,res)=>{
 //    const listing=new Listing({
