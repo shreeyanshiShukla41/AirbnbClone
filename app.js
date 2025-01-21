@@ -27,34 +27,45 @@ const dbUrl=process.env.ATLASDB_URL
 const port = process.env.PORT || 8080;
 
 
-const store=MongoStore.create({
-  mongoUrl:dbUrl,
-  crypto:{
-    secret:process.env.SECRET_CODE,
-  },
-  touchAfter:24*3600,
-})
+// const store=MongoStore.create({
+//   mongoUrl:dbUrl,
+//   crypto:{
+//     secret:process.env.SECRET_CODE,
+//   },
+//   touchAfter:24*3600,
+// })
 
-store.on("error",(err)=>{
-  console.log("Error occurred in mongo store ",err);
+// store.on("error",(err)=>{
+//   console.log("Error occurred in mongo store ",err);
   
-})
+// })
 
-const sessionOptions = {
-  store,
-  secret: process.env.SECRET_CODE,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    expiry: Date.now() + 7 * 24 * 60 * 60 * 1000,
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    httpOnly: true,
-  },
-};
+// const sessionOptions = {
+//   store,
+//   secret: process.env.SECRET_CODE,
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     expiry: Date.now() + 7 * 24 * 60 * 60 * 1000,
+//     maxAge: 7 * 24 * 60 * 60 * 1000,
+//     httpOnly: true,
+//   },
+// };
+
+app.use(
+    session({
+        secret: process.env.SECRET_CODE,
+        resave: false,
+        saveUninitialized: false,
+        store: MongoStore.create({
+            mongoUrl: 'your-mongo-db-connection-string',
+        }),
+    })
+);
 
 
 
-app.use(session(sessionOptions));
+// app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
