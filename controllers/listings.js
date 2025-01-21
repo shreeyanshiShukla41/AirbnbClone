@@ -48,7 +48,7 @@ module.exports.getDetailOfAListing = async (req, res) => {
     req.flash("error", "Listing you are access does not exist");
     res.redirect("/listings");
   }
-  res.render("./listings/show.ejs", { listing });
+  res.render("./listings/show.ejs", { listing ,currUser:req.user});
 };
 
 module.exports.editListing = async (req, res) => {
