@@ -81,40 +81,23 @@ async function main() {
   });
 }
 
-// app.get("/registeredUser",async(req,res)=>{
-//   let fakeUser=new User({
-//     email:"s@gmail.com",
-//     username:"student"
-//   })
-//   let registeredUser=await User.register(fakeUser,"password");
-//   res.send(registeredUser);
-// })
+
 
 app.use("/listings", listingsRouter);
 
 app.use("/listings/:id/reviews/", reviewsRouter);
 app.use("/", userRouter);
 
-app.use((req, res, next) => {
-  res.locals.successMsg = req.flash("success");
-  res.locals.errorMsg = req.flash("error");
-  res.locals.currUser = req.session?.user || null;
-  console.log(res.locals.currUser);
+// app.use((req, res, next) => {
+//   res.locals.successMsg = req.flash("success");
+//   res.locals.errorMsg = req.flash("error");
+//   res.locals.currUser = req.session?.user || null;
+//   console.log(res.locals.currUser);
 
-  next();
-});
+//   next();
+// });
 
-// app.get("/test",async(req,res)=>{
-//    const listing=new Listing({
-//     title:"Test",
-//     description:"testing",
-//     price:100,
-//     location:"xyz",
-//     Country:"India"
-//    })
-//    await listing.save();
-//    res.send("testing is successful")
-// })
+
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
